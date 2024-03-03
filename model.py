@@ -1,10 +1,19 @@
+
+
+
 from langchain_openai import ChatOpenAI
-
-llm = ChatOpenAI(openai_api_key="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")
-
-llm.invoke("how can langsmith help with testing?")
-
+from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
+
+llm = ChatOpenAI(openai_api_key="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")
 prompt = ChatPromptTemplate.from_messages([
-    ("system", "You are world class technical documentation writer."),
+    ("system", "You are my English teacher, You answer question and ask a follow up question. Please keep both the answers and questions short and concise."),
     ("user", "{input}")])
+chain = prompt | llm
+output_parser = StrOutputParser()
+chain = prompt | llm | output_parser
+
+def englishteacher(text):
+   response = chain.invoke({"input": text})
+   print('AI Teacher: ', response)
+   return  response
